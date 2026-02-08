@@ -25,7 +25,7 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
 
         try {
-            List<Users> user;
+            Object user;
             if (id != null) {
                 user = usersRepository.findOne(id);
             } else {
