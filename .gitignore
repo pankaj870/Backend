@@ -1,36 +1,5 @@
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Environment variables
-.env
-.env.local
-.env.development
-.env.production
-
-# Build output
-dist/
-build/
-out/
-
-# Coverage
-coverage/
-
-# Cache
-.cache/
-.npm/
-.eslintcache
+node_modules
 *.zip
-
-# Logs
-logs/
-*.pid
-*.seed
-*.pid.lock
-
 
 HELP.md
 target/
