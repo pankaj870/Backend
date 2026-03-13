@@ -1,36 +1,114 @@
-node_modules
-*.zip
+# ------------------------------
+# OS / Editor
+# ------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
 
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+.vscode/
+.idea/
 *.iml
 *.ipr
+*.iws
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Eclipse / STS
+.classpath
+.project
+.settings/
+.apt_generated/
+.factorypath
+.springBeans
+.sts4-cache/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# ------------------------------
+# Secrets / Environment
+# ------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+
+# ------------------------------
+# Archives
+# ------------------------------
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+
+# ------------------------------
+# Node.js
+# ------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build / coverage caches
+coverage/
+dist/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+.next/
+out/
+.cache/
+.parcel-cache/
 
-### VS Code ###
-.vscode/
+# ------------------------------
+# Java / Maven / Gradle
+# ------------------------------
+target/
+.gradle/
+
+# Maven helper files generated locally
+.mvn/timing.properties
+
+# Logs
+*.log
+
+# Keep Maven wrapper binaries tracked if present
+!.mvn/wrapper/maven-wrapper.jar
+
+# ------------------------------
+# Python
+# ------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Packaging
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/

@@ -1,15 +1,12 @@
 {
   "name": "node-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "structure_script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "script": "node structure_script.js"
   },
-  "keywords": [],
-  "author": "",
+  "author": "pankaj mahajan",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "express": "^5.2.1"
-  }
+  "description": ""
 }

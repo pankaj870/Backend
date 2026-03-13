@@ -1,0 +1,9 @@
+
+======================= Runing Python vertual Envoriment ======================
+python -m venv venv
+
+======================= Install All Required Dependencies ======================
+pip install -r requirements.txt
+
+======================= Runing Fast Api Server ======================
+uvicorn app.main:app --reload

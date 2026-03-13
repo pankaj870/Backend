@@ -1,0 +1,13 @@
+npm i
+
+=============== ORM MODEL ==================
+npm i sequelize-cli 
+
+npx sequelize-cli init
+
+npx sequelize-cli generate:model --name user --attributes name:string,email:string,password:string
+
+npx sequelize-cli db:migrate
+npx sequelize-cli db:migrate:undo:all
+
+npx sequelize-cli db:seed:all
