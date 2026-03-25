@@ -1,70 +1,185 @@
-// create-node-backend-structure.js
-const fs = require("fs");
-const path = require("path");
+// create-module-structure.mjs
+import fs from "fs";
+import path from "path";
 
-// Replace with your service name
+// 👉 Change your service name here
 const serviceName = "service_name";
 
-// Base path for the service
 const basePath = path.join(process.cwd(), serviceName);
 
-// Define the folder structure relative to the service folder
-const folders = [
-  "controllers",
-  "routes",
-  "validations",
+// Modules you want to generate
+const modules = ["user", "auth", "product"];
+
+// Common folders
+const commonFolders = [
   "middlewares",
   "utilities",
-  "services",
+  "constants",
+  "errors",
+  "database",
 ];
 
-// Optional default files (can be empty to start)
-const files = [
-  {
-    path: "routes/index.js",
-    content: `const express = require('express');\nconst router = express.Router();\n\nmodule.exports = router;\n`,
-  },
-  {
-    path: "controllers/sampleController.js",
-    content: `exports.sampleFunction = (req, res) => {\n  res.send('Hello World');\n};\n`,
-  },
-  {
-    path: "handler.js",
-    content: `const express = require('express');\n
-     const app = express();
-     \n app.use(express.json()); 
-     \n app.use(express.urlencoded({ extended: true }));
-     \n const port = 3000;
-     \n app.use("/", require("./routes/index"));
-     \n app.listen(port ,()=> console.log("server are running on port 3000"));
-    `,
-  },
-];
+// Helper to create file
+const createFile = (filePath, content = "") => {
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, content);
+    console.log(`Created file: ${filePath}`);
+  }
+};
 
-// Create service folder if it doesn't exist
-if (!fs.existsSync(basePath)) {
-  fs.mkdirSync(basePath);
-  console.log(`Created service folder: ${serviceName}`);
+// Helper to create folder
+const createFolder = (folderPath) => {
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath, { recursive: true });
+    console.log(`Created folder: ${folderPath}`);
+  }
+};
+
+// 👉 Create base folders
+createFolder(basePath);
+createFolder(path.join(basePath, "src"));
+createFolder(path.join(basePath, "src/modules"));
+createFolder(path.join(basePath, "src/common"));
+createFolder(path.join(basePath, "src/config"));
+createFolder(path.join(basePath, "src/loaders"));
+createFolder(path.join(basePath, "tests"));
+
+// 👉 Create common subfolders
+commonFolders.forEach((folder) => {
+  createFolder(path.join(basePath, "src/common", folder));
+});
+
+// 👉 Create modules
+modules.forEach((module) => {
+  const modulePath = path.join(basePath, "src/modules", module);
+  createFolder(modulePath);
+
+  // Files inside each module
+  createFile(
+    path.join(modulePath, `${module}.controller.js`),
+    `export const get${capitalize(module)} = (req, res) => {
+  res.send("${module} controller working");
+};
+`,
+  );
+
+  createFile(
+    path.join(modulePath, `${module}.service.js`),
+    `export const ${module}Service = {
+  get${capitalize(module)}ById: (id) => {
+    return { id, message: "${module} service working" };
+  },
+};
+`,
+  );
+
+  createFile(
+    path.join(modulePath, `${module}.repository.js`),
+    `export const ${module}Repository = {
+  findById: (id) => {
+    return { id, message: "${module} repository working" };
+  },
+};
+`,
+  );
+
+  createFile(
+    path.join(modulePath, `${module}.routes.js`),
+    `import express from "express";
+import { get${capitalize(module)} } from "./${module}.controller.js";
+
+const router = express.Router();
+
+router.get("/:id", get${capitalize(module)});
+
+export default router;
+`,
+  );
+
+  createFile(
+    path.join(modulePath, `${module}.validation.js`),
+    `export const validate${capitalize(module)} = (data) => {
+  return true;
+};
+`,
+  );
+
+  createFile(
+    path.join(modulePath, `${module}.model.js`),
+    `// Define ${module} schema/model here
+export default {};
+`,
+  );
+
+  // index.js (module entry point)
+  createFile(
+    path.join(modulePath, "index.js"),
+    `import routes from "./${module}.routes.js";
+
+export default {
+  routes,
+};
+`,
+  );
+});
+
+// 👉 Create app.js
+createFile(
+  path.join(basePath, "src/app.js"),
+  `import express from "express";
+
+const app = express();
+
+app.use(express.json());
+
+// Load modules
+import userModule from "./modules/user/index.js";
+import authModule from "./modules/auth/index.js";
+import productModule from "./modules/product/index.js";
+
+app.use("/users", userModule.routes);
+app.use("/auth", authModule.routes);
+app.use("/products", productModule.routes);
+
+export default app;
+`,
+);
+
+// 👉 Create server.js
+createFile(
+  path.join(basePath, "server.js"),
+  `import app from "./src/app.js";
+
+const PORT = 3000;
+
+app.listen(PORT, () => {
+  console.log(\`Server running on port \${PORT}\`);
+});
+`,
+);
+
+// 👉 Create package.json
+createFile(
+  path.join(basePath, "package.json"),
+  `{
+  "name": "${serviceName}",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+`,
+);
+
+// 👉 Helper function
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Create subfolders
-folders.forEach((folder) => {
-  const dirPath = path.join(basePath, folder);
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
-    console.log(`Created folder: ${path.join(serviceName, folder)}`);
-  }
-});
-
-// Create default files
-files.forEach((file) => {
-  const filePath = path.join(basePath, file.path);
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, file.content);
-    console.log(`Created file: ${path.join(serviceName, file.path)}`);
-  }
-});
-
-console.log(
-  `Node backend structure created successfully inside "${serviceName}"!`,
-);
+console.log("✅ Module-based backend structure created successfully!");
