@@ -1,7 +1,10 @@
 {
   "name": "user_service",
-  "version": "1.0.0",
+  "author": "paannk developer",
+  "description": "",
+  "license": "ISC",
   "type": "module",
+  "version": "1.0.0",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
