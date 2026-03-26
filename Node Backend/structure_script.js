@@ -37,21 +37,21 @@ const createFolder = (folderPath) => {
 
 // 👉 Create base folders
 createFolder(basePath);
-createFolder(path.join(basePath, "src"));
-createFolder(path.join(basePath, "src/modules"));
-createFolder(path.join(basePath, "src/common"));
-createFolder(path.join(basePath, "src/config"));
-createFolder(path.join(basePath, "src/loaders"));
-createFolder(path.join(basePath, "tests"));
+// createFolder(path.join(basePath, "));
+createFolder(path.join(basePath, "modules"));
+createFolder(path.join(basePath, "common"));
+createFolder(path.join(basePath, "config"));
+createFolder(path.join(basePath, "loaders"));
+// createFolder(path.join(basePath, "tests"));
 
 // 👉 Create common subfolders
 commonFolders.forEach((folder) => {
-  createFolder(path.join(basePath, "src/common", folder));
+  createFolder(path.join(basePath, "common", folder));
 });
 
 // 👉 Create modules
 modules.forEach((module) => {
-  const modulePath = path.join(basePath, "src/modules", module);
+  const modulePath = path.join(basePath, "modules", module);
   createFolder(modulePath);
 
   // Files inside each module
@@ -125,7 +125,7 @@ export default {
 
 // 👉 Create app.js
 createFile(
-  path.join(basePath, "src/app.js"),
+  path.join(basePath, "app.js"),
   `import express from "express";
 
 const app = express();
@@ -148,7 +148,7 @@ export default app;
 // 👉 Create server.js
 createFile(
   path.join(basePath, "server.js"),
-  `import app from "./src/app.js";
+  `import app from "./app.js";
 
 const PORT = 3000;
 

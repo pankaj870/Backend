@@ -1,4 +1,4 @@
-import app from "./src/app.js";
+import app from "./modules/routes";
 
 const PORT = 3000;
 
