@@ -11,3 +11,17 @@ npx sequelize-cli db:migrate
 npx sequelize-cli db:migrate:undo:all
 
 npx sequelize-cli db:seed:all
+
+================ Development ========================
+=====> linux
+mkdir -p layer/nodejs && cd layer/nodejs && npm init -y && npm install --production && cd main-v1 && zip -r layer.zip nodejs
+=====> windows
+mkdir layer/nodejs; cd layer/nodejs; npm init -y; npm install --production; cd ..; Compress-Archive -Path nodejs -DestinationPath layer.zip
+
+================================================
+aws lambda add-layer-version-permission \
+  --layer-name main-service-v1 \
+  --version-number 1 \
+  --statement-id public-access \
+  --principal '*' \
+  --action lambda:GetLayerVersion

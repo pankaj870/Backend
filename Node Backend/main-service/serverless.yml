@@ -1,0 +1,45 @@
+org: paannk
+service: main-service
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ${env:AWS_REGION, 'us-east-1'}
+  environment:
+    NODE_ENV: ${env:NODE_ENV, 'production'}
+    PAYPAL_CLIENT_ID: ${env:PAYPAL_CLIENT_ID, ''}
+    PAYPAL_CLIENT_SECRET: ${env:PAYPAL_CLIENT_SECRET, ''}
+
+package:
+  individually: true
+  patterns:
+    - '!node_modules/**'
+    - '!layer/**'
+    - '!.env'
+    - '!README.md'
+
+functions:
+  app:
+    handler: handler.handler
+    layers:
+      - ${env:MAIN_SERVICE_LAYER_ARN}
+    package:
+      patterns:
+        - handler.js
+        - '!node_modules/**'
+        - '!.env'
+        - '!README.md'
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
+plugins:
+  - serverless-offline
